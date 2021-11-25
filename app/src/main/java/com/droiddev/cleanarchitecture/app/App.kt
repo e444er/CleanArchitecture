@@ -1,21 +1,18 @@
 package com.droiddev.cleanarchitecture.app
 
 import android.app.Application
-import com.droiddev.cleanarchitecture.di.appModule
-import com.droiddev.cleanarchitecture.di.dataModule
-import com.droiddev.cleanarchitecture.di.domainModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
+import com.droiddev.cleanarchitecture.di.AppComponent
+import com.droiddev.cleanarchitecture.di.DaggerAppComponent
 
 class App : Application() {
+
+    lateinit var appComponent: AppComponent
+
     override fun onCreate() {
         super.onCreate()
-        startKoin {
-            androidLogger(Level.DEBUG)
-            androidContext(this@App)
-            modules(listOf(appModule, domainModule, dataModule))
-        }
+        appComponent = DaggerAppComponent
+            .builder()
+            .context(context = this)
+            .build()
     }
 }

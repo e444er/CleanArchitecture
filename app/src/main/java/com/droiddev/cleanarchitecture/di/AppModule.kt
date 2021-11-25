@@ -1,15 +1,23 @@
 package com.droiddev.cleanarchitecture.di
 
-import com.droiddev.cleanarchitecture.presentation.MainViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import com.droiddev.cleanarchitecture.domain.usecase.GetUserNameUseCase
+import com.droiddev.cleanarchitecture.domain.usecase.SaveUserNameUseCase
+import com.droiddev.cleanarchitecture.presentation.MainViewModelFactory
+import dagger.Module
+import dagger.Provides
 
-val appModule = module {
+@Module
+class AppModule() {
 
-    viewModel<MainViewModel> {
-        MainViewModel(
-            getUserNameUseCase = get(),
-            saveUserNameUseCase = get()
+    @Provides
+    fun provideMainViewModelFactory(
+        getUserNameUseCase: GetUserNameUseCase,
+        saveUserNameUseCase: SaveUserNameUseCase
+    ): MainViewModelFactory {
+        return MainViewModelFactory(
+            getUserNameUseCase,
+            saveUserNameUseCase
         )
     }
+
 }
